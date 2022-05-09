@@ -29,7 +29,7 @@ const keys = {
     BracketLeft: '[',
     BracketRight: ']',
     Backslash: '\\',
-    Delete: 'del',
+    Delete: 'Del',
     CapsLock: 'CapsLock',
     KeyA: 'a',
     KeyS: 's',
@@ -52,9 +52,9 @@ const keys = {
     KeyN: 'n',
     KeyM: 'm',
     Comma: ',',
-    Period: '.',
+    Dot: '.',
     Slash: '/',
-    ArrowUp: 'arrowup',
+    ArrowUp: '▲',
     ShiftRight: 'Shift ',
     ControlLeft: 'Ctrl',
     MetaLeft: 'win',
@@ -62,9 +62,9 @@ const keys = {
     Space: 'space',
     AltRight: 'Alt',
     ControlRight: 'Ctrl',
-    ArrowLeft: 'arrowleft',
-    ArrowDown: 'arrowdown',
-    ArrowRight: 'arrowright',
+    ArrowLeft: '◄',
+    ArrowDown: '▼',
+    ArrowRight: '►',
   },
 
   ru: {
@@ -113,7 +113,7 @@ const keys = {
     KeyN: 'т',
     KeyM: 'ь',
     Comma: 'б',
-    Period: 'ю',
+    Dot: 'ю',
     Slash: '.',
   },
 };
@@ -139,7 +139,7 @@ const alterKeys = {
     Semicolon: ':',
     Quote: '"',
     Comma: '<',
-    Period: '>',
+    Dot: '>',
     Slash: '?',
   },
 
@@ -163,7 +163,7 @@ const alterKeys = {
     Semicolon: 'Ж',
     Quote: 'Э',
     Comma: 'Б',
-    Period: 'Ю',
+    Dot: 'Ю',
     Slash: ',',
   },
 };
@@ -189,3 +189,128 @@ const specialKeys = {
     'ArrowRight',
   ],
 };
+
+//Class keyboard
+
+class Keyboard {
+  constructor() {
+    this.keys;
+    this.color = 'rgba(22, 136, 240, 0.7)';
+  }
+
+  createContainer() {
+  	//header
+    const header = document.createElement('header');
+    header.classList.add('header');
+    const title = document.createElement('h1');
+    title.classList.add('header__title');
+    title.textContent = 'Virtual Keyboard';
+    header.append(title);
+    document.body.prepend(header);
+
+    //main
+    const container = document.createElement('main');
+    container.classList.add('container');
+    header.after(container);
+
+    const content = document.createElement('div');
+    content.classList.add('content');
+    container.append(content);
+
+    const keyboard = document.createElement('div');
+	keyboard.classList.add('content__keyboard');
+
+    const textarea = document.createElement('textarea');
+    textarea.classList.add('content__area');
+
+    const info = document.createElement('div');
+    info.classList.add('content__info');
+	
+    const windows = document.createElement('p');
+	windows.textContent = 'Клавиатура создана в операционной системе Windows';
+    
+    //Lang
+    const language = document.createElement('div');
+    language.classList.add('lang');
+    const languageComb = document.createElement('h2');
+    languageComb.textContent = 'Для переключения языка комбинация: Ctrl + Alt:';
+    const languageSelect = document.createElement('span');
+    languageSelect.classList.add('lang__select');
+    languageSelect.textContent = 'en';
+
+    info.append(windows, language);
+    language.append(languageComb, languageSelect);
+    content.append(textarea, keyboard, info);
+    this.keys = document.createElement('div');
+    this.keys.classList.add('keyboard__keys');
+    keyboard.append(this.createKeys(keys.en));
+  }
+
+  createKeys(obj) {
+    for (const [key1, value] of Object.entries(obj)) {
+      const key = document.createElement('button');
+      key.classList.add('keyboard__key');
+      key.setAttribute('data-keyCode', `${key1}`);
+      const keyboardText = document.createElement('span');
+      keyboardText.classList.add('keyboard__key-start');
+      key.append(keyboardText);
+      if (value === 'Del' || value === 'enter' || value === 'backspace' || value === 'tab') {
+        keyboardText.textContent = value.slice(0, 1).toUpperCase() + value.slice(1);
+      } else {
+        keyboardText.textContent = value;
+      }
+      if (value === 'backspace' || value === 'CapsLock' || value === 'Shift') {
+        key.style.flexBasis = `${13}%`;
+        key.style.maxWidth = `${10}rem`;
+        key.style.background = this.color;
+      } else if (value === 'enter') {
+        key.style.flexBasis = `${11}%`;
+        key.style.maxWidth = `${7}rem`;
+        key.style.background = this.color;
+      } else if (value === 'space') {
+        key.style.flexGrow = 1;
+        key.style.maxWidth = `${37}%`;
+        key.textContent = '';
+      } else if (value === 'Ctrl') {
+        key.style.flexBasis = `${8}%`;
+        key.style.maxWidth = `${5}rem`;
+        key.style.background = this.color;
+      } else if (value === 'arrowup') {
+        keyboardText.textContent = '';
+        key.classList.add('arrow__up', 'arrow');
+      } else if (value === 'arrowdown') {
+        keyboardText.textContent = '';
+        key.classList.add('arrow__down', 'arrow');
+      } else if (value === 'arrowleft') {
+        keyboardText.textContent = '';
+        key.classList.add('arrow__left', 'arrow');
+      } else if (value === 'arrowright') {
+        keyboardText.textContent = '';
+        key.classList.add('arrow__right', 'arrow');
+      } else if (
+        value === '`'
+        || value === 'tab'
+        || value === 'win'
+        || value === 'Alt'
+        || value === 'Del'
+        || value === 'Shift '
+      ) {
+        key.style.background = this.color;
+      }
+      this.keys.append(key);
+      for (const [key2, value2] of Object.entries(alterKeys.en)) {
+        if (key2 === key1) {
+          const auxText = document.createElement('span');
+          auxText.classList.add('keyboard__key-alter');
+          key.classList.add('keyboard__key-special');
+          auxText.textContent = value2;
+          key.append(auxText);
+        }
+      }
+    }
+    return this.keys;
+  }
+}
+
+const container = new Keyboard();
+container.createContainer();
