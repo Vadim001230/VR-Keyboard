@@ -131,7 +131,7 @@ ul li {
   text-transform: lowercase;
 }
 
-.keyboard__key-start.active-Upspecial {
+.keyboard__key-start.Up__special {
   text-transform: uppercase;
 }
 
@@ -147,7 +147,7 @@ ul li {
   font-size: 1em;
 }
 
-.keyboard__key-alter.active-Upspecial {
+.keyboard__key-alter.Up__special {
   text-transform: lowercase;
 }
 

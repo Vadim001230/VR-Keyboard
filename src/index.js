@@ -198,7 +198,7 @@ class Keyboard {
   }
 
   createContainer() {
-  	//header
+  //header
     const header = document.createElement('header');
     header.classList.add('header');
     const title = document.createElement('h1');
@@ -272,16 +272,16 @@ class Keyboard {
         key.style.maxWidth = '80px';
         key.classList.add('keyboard__key-blue');
       } else if (value === 'ShiftRight') {
-      	keyboardText.textContent = 'Shift';
+        keyboardText.textContent = 'Shift';
         key.classList.add('keyboard__key-blue');
       } else if (value === 'ArrowUp') {
-      	keyboardText.textContent = '▲';
+        keyboardText.textContent = '▲';
         key.classList.add('keyboard__key-blue');
       } else if (value === 'ArrowDown') {
-      	keyboardText.textContent = '▼';
+        keyboardText.textContent = '▼';
 		key.classList.add('keyboard__key-blue');
       } else if (value === 'ArrowLeft') {
-      	keyboardText.textContent = '◄';
+        keyboardText.textContent = '◄';
 		key.classList.add('keyboard__key-blue');
       } else if (value === 'ArrowRight') {
         keyboardText.textContent = '►';
@@ -323,14 +323,15 @@ let flagCaps = false;
 let lang = 'en';
 
 //Lang
-
 const changeLanguage = (objStart, objAlter) => {
   const dataAtrib = document.querySelectorAll('[data-keycode]');
 
   dataAtrib.forEach((el) => {
     const dataValue = el.dataset.keycode;
     const valueDataSpecial = el.classList.contains('keyboard__key-special');
-    if (specialKeys.specialKey.includes(dataValue)) {} else {
+    if (specialKeys.specialKey.includes(dataValue)) {
+    //empty
+    } else {
       if (valueDataSpecial === true) {
         el.children[1].textContent = objAlter[dataValue].toString();
       }
@@ -341,68 +342,22 @@ const changeLanguage = (objStart, objAlter) => {
 
 
 //Textarea
-
 const writeArea = (item, obj, obj2) => {
   let cursorPos = textArea.selectionStart;
   const start = textArea.value.slice(0, cursorPos);
   const end = textArea.value.slice(cursorPos);
   let value;
   const elementVal = item.dataset.keycode;
-  if (btnCaps.classList.contains('active')
-   && !specialKeys.specialKey.includes(elementVal)) {
-    if (btnShiftLeft.classList.contains('active') 
-    	|| btnShiftRight.classList.contains('active')) {
-      value = obj[elementVal].toLowerCase();
-    } else {
-      value = obj[elementVal].toUpperCase();
-    }
-  } else if (!btnCaps.classList.contains('active')
-    && !specialKeys.specialKey.includes(elementVal)) {
-    if (
-      btnShiftLeft.classList.contains('active')
-      || btnShiftRight.classList.contains('active')
-    ) {
-      value = obj[elementVal].toUpperCase();
-    } else {
-      value = obj[elementVal].toLowerCase();
-    }
-  }
-  if (
-    elementVal === item.dataset.keycode
-    && !specialKeys.specialKey.includes(elementVal)
-  ) {
-    if (
-      btnShiftLeft.classList.contains('active')
-      || btnShiftRight.classList.contains('active')
-    ) {
-      if (
-        item.classList.contains('keyboard__key-special')
-        && btnCaps.classList.contains('active')
-      ) {
-        value = obj2[elementVal].toLowerCase();
-      } else if (
-        item.classList.contains('keyboard__key-special')
-        && !btnCaps.classList.contains('active')
-      ) {
-        value = obj2[elementVal];
-      }
-    }
-    textArea.value = `${start}${value}${end}`;
-    cursorPos += 1;
-  }
-  if (item.dataset.keycode === 'Tab') {
+
+   if (item.dataset.keycode === 'Tab') {
     textArea.value = `${start}    ${end}`;
     cursorPos += 4;
   } else if (item.dataset.keycode === 'Space') {
     textArea.value = `${start}  ${end}`;
     cursorPos += 2;
   } else if (item.dataset.keycode === 'Backspace') {
-    if (cursorPos === 0) {
-      /* empty */
-    } else {
-      textArea.value = textArea.value.slice(0, cursorPos - 1) + end;
-      cursorPos -= 1;
-    }
+    textArea.value = textArea.value.slice(0, cursorPos - 1) + end;
+    cursorPos -= 1;
   } else if (item.dataset.keycode === 'Delete') {
     textArea.value = start + textArea.value.slice(cursorPos + 1);
   } else if (item.dataset.keycode === 'Enter') {
@@ -429,5 +384,223 @@ const writeArea = (item, obj, obj2) => {
     }
     if (cursorPos < 0) return;
   } 
+
+  if (btnCaps.classList.contains('active')
+   && !specialKeys.specialKey.includes(elementVal)) {
+    if (btnShiftLeft.classList.contains('active') 
+      || btnShiftRight.classList.contains('active')) {
+      value = obj[elementVal].toLowerCase();
+    } else {
+      value = obj[elementVal].toUpperCase();
+    }
+  } else if (!btnCaps.classList.contains('active')
+    && !specialKeys.specialKey.includes(elementVal)) {
+    if (btnShiftLeft.classList.contains('active')
+      || btnShiftRight.classList.contains('active')
+    ) {
+      value = obj[elementVal].toUpperCase();
+    } else {
+      value = obj[elementVal].toLowerCase();
+    }
+  }
+
+  if (elementVal === item.dataset.keycode
+    && !specialKeys.specialKey.includes(elementVal)
+  ) {
+    if (btnShiftLeft.classList.contains('active')
+      || btnShiftRight.classList.contains('active')
+    ) {
+      if (item.classList.contains('keyboard__key-special')
+        && btnCaps.classList.contains('active')) {
+        value = obj2[elementVal].toLowerCase();
+      } else if (item.classList.contains('keyboard__key-special')
+        && !btnCaps.classList.contains('active')) {
+        value = obj2[elementVal];
+      }
+    }
+    textArea.value = `${start}${value}${end}`;
+    cursorPos += 1;
+  }
   textArea.setSelectionRange(cursorPos, cursorPos);
 };
+
+//keyboard click
+
+const eventKeyAdd = (event, eventCode) => {
+  btns.forEach((el) => {
+    if (eventCode === el.dataset.keycode && eventCode === 'CapsLock') {
+      if (event.repeat) return;
+      if (el.classList.contains('active')) {
+        el.classList.remove('active');
+      } else {
+        el.classList.add('active');
+      }
+    }
+    if (eventCode === el.dataset.keycode && eventCode !== 'CapsLock') {
+      event.preventDefault();
+      el.classList.add('active');
+      if (flag) {
+        writeArea(el, keys.ru, alterKeys.ru);
+      } else {
+        writeArea(el, keys.en, alterKeys.en);
+      }
+    }
+  });
+  if (event.altKey && event.ctrlKey && !flag) {
+    changeLanguage(keys.ru, alterKeys.ru);
+    flag = true;
+    lang = 'ru';
+    langSelect.textContent = lang;
+    setLocalStorage();
+  } else if (event.altKey && event.ctrlKey) {
+    changeLanguage(keys.en, alterKeys.en);
+    flag = false;
+    lang = 'en';
+    langSelect.textContent = lang;
+    setLocalStorage();
+  }
+  if (eventCode === 'CapsLock' && !flagCaps) {
+    btns.forEach((el) => {
+      const valueDataSpecial = el.classList.contains('keyboard__key-special');
+      if (event.repeat) return;
+      if (!specialKeys.specialKey.includes(el.dataset.keycode)) {
+        el.children[0].classList.add('up__special');
+      }
+      if (valueDataSpecial === true) {
+        el.children[1].classList.add('up__special');
+      }
+    });
+    flagCaps = true;
+  } else if (eventCode === 'CapsLock') {
+    btns.forEach((el) => {
+      const valueDataSpecial = el.classList.contains('keyboard__key-special');
+      if (event.repeat) return;
+      if (!specialKeys.specialKey.includes(el.dataset.keycode)) {
+        el.children[0].classList.remove('up__special');
+      }
+      if (valueDataSpecial === true) {
+        el.children[1].classList.remove('up__special');
+      }
+    });
+    flagCaps = false;
+  }
+  if (
+    btnShiftLeft.classList.contains('active')
+    || btnShiftRight.classList.contains('active')
+  ) {
+    btnSpecial.forEach((el) => {
+      if (!btnCaps.classList.contains('active')) {
+        /* empty */
+      } else {
+        el.classList.add('up__special');
+      }
+      el.classList.add('active-special');
+    });
+    btnAlters.forEach((el) => {
+      if (!btnCaps.classList.contains('active')) {
+        /* empty */
+      } else {
+        el.classList.add('up__special');
+      }
+      el.classList.add('active-special');
+    });
+    btns.forEach((el) => {
+      if (!specialKeys.specialKey.includes(el.dataset.keycode)
+        && !btnCaps.classList.contains('active')
+      ) {
+        el.classList.add('active-up');
+      }
+    });
+  }
+  if (btnCaps.classList.contains('active')) {
+    if (eventCode === 'ShiftLeft' || eventCode === 'ShiftRight') {
+      btns.forEach((el) => {
+        if (
+          !specialKeys.specialKey.includes(el.dataset.keycode)
+          && !el.classList.contains('keyboard__key-special')
+        ) {
+          el.children[0].classList.remove('up__special');
+        }
+      });
+    }
+  }
+};
+
+const eventKeyRemove = (eventCode) => {
+  btns.forEach((el) => {
+    if (eventCode === el.dataset.keycode && eventCode !== 'CapsLock') {
+      el.classList.remove('active');
+    }
+  });
+  if (
+    btnShiftLeft.classList.contains('active')
+    || btnShiftRight.classList.contains('active')
+  ) {
+    /* empty */
+  } else {
+    btnSpecial.forEach((el) => el.classList.remove('active-special'));
+    btnAlters.forEach((el) => el.classList.remove('active-special'));
+    btns.forEach((el) => el.classList.remove('active-up'));
+  }
+  if (btnCaps.classList.contains('active')) {
+    if (eventCode === 'ShiftLeft' || eventCode === 'ShiftRight') {
+      btns.forEach((el) => {
+        if (!specialKeys.specialKey.includes(el.dataset.keycode)) {
+          el.children[0].classList.add('up__special');
+        }
+      });
+    }
+  }
+};
+
+document.addEventListener('keydown', (event) => {
+  eventKeyAdd(event, event.code);
+});
+document.addEventListener('keyup', (event) => {
+  eventKeyRemove(event.code);
+});
+keyboard.addEventListener('click', (event) => {
+  textArea.focus();
+  const item = event.target.closest('.keyboard__key');
+  if (!item) return;
+  if (!keyboard.contains(item)) return;
+  eventKeyAdd(event, item.dataset.keycode);
+});
+keyboard.addEventListener('click', (event) => {
+  textArea.focus();
+  const item = event.target.closest('.keyboard__key');
+  if (!item) return;
+  if (!keyboard.contains(item)) return;
+  eventKeyRemove(item.dataset.keycode);
+});
+langSelect.addEventListener('click', () => {
+  if (flag === false) {
+    changeLanguage(keys.ru, alterKeys.ru);
+    flag = true;
+    lang = 'ru';
+    langSelect.textContent = lang;
+    setLocalStorage();
+  } else {
+    changeLanguage(keys.en, alterKeys.en);
+    flag = false;
+    lang = 'en';
+    langSelect.textContent = lang;
+    setLocalStorage();
+  }
+});
+
+//Local storage
+const setLocalStorage = () => {
+  localStorage.setItem('lang', lang);
+};
+const getLocalStorage = () => {
+  if (localStorage.getItem('lang') === null) {
+    setLocalStorage();
+  }
+  if (localStorage.getItem('lang') === 'ru') {
+    changeLanguage(keys.ru, alterKeys.ru);
+    flag = true;
+    langSelect.textContent = 'ru';
+  }
+};
+window.addEventListener('load', getLocalStorage);
