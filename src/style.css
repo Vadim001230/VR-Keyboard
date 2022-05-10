@@ -1,0 +1,183 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100%;
+  background-color: #eee;
+}
+
+button {
+  cursor: pointer;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+.header__title {
+  color: #000;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+  width: 100%;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 1000px;
+  row-gap: 20px;
+}
+
+.content__area {
+  max-width: 965px;
+  padding: 20px;
+  width: 100%;
+  height: 120px;
+  border: 1px solid #000;
+  font-size: 20px;
+  resize: none;
+}
+
+.content__keyboard {
+  background: #171717;
+  font-size: 18px;
+  max-width: 965px;
+  padding: 20px;
+  width: 100%;
+}
+
+.keyboard__keys {
+  column-gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 930px;
+  row-gap: 10px;
+}
+
+.keyboard__key {
+  background: #404551;
+  border-radius: 5px;
+  color: #fff;
+  flex-basis: 10%;
+  height: 50px;
+  max-width: 50px;
+  font-size: 16px;
+  position: relative;
+  transition: 0.2s;
+}
+
+.keyboard__key-blue {
+   background-color: rgba(22, 136, 240, 0.7);
+}
+
+.keyboard__key:hover {
+  background-color: rgba(22, 136, 230, 0.4);
+}
+
+.keyboard__key:active {
+  border-radius: 20px;
+  background-color: rgba(22, 136, 230, 0.4);
+}
+
+.keyboard__key.active {
+  border-radius: 25px;
+  background-color: rgba(22, 136, 230, 0.4);
+}
+
+.keyboard__key.active-up {
+  text-transform: uppercase;
+}
+
+.keyboard__key-start.active-special {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 10px;
+  text-transform: lowercase;
+}
+
+.keyboard__key-start.up__special {
+  text-transform: uppercase;
+}
+
+.keyboard__key-alter {
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: 10px;
+}
+
+.keyboard__key-alter.active-special {
+  position: static;
+  font-size: 1em;
+}
+
+.keyboard__key-alter.up__special {
+  text-transform: lowercase;
+}
+
+.content__info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.lang {
+  display: flex;
+  align-items: center;
+}
+
+.lang h2{
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.lang__select {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  width: 30px;
+  margin-left: 15px;
+  background-color: rgba(22, 136, 230, 0.4);
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+  text-align: center;
+}
